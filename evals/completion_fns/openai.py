@@ -1,4 +1,5 @@
 import logging
+import os
 from typing import Any, Optional, Union
 
 import openai
@@ -116,7 +117,7 @@ class OpenAICompletionFn(CompletionFn):
         openai_create_prompt: OpenAICreatePrompt = prompt.to_formatted_prompt()
 
         result = openai_completion_create_retrying(
-            AzureOpenAI(api_key=self.api_key, base_url=self.api_base),
+            AzureOpenAI(api_key=self.api_key, base_url=self.api_base, azure_deployment=os.getenv("AZURE_DEPLOYMENT")),
             model=self.model,
             prompt=openai_create_prompt,
             **{**kwargs, **self.extra_options},
@@ -166,7 +167,7 @@ class OpenAIChatCompletionFn(CompletionFnSpec):
         openai_create_prompt: OpenAICreateChatPrompt = prompt.to_formatted_prompt()
 
         result = openai_chat_completion_create_retrying(
-            AzureOpenAI(api_key=self.api_key, base_url=self.api_base),
+            AzureOpenAI(api_key=self.api_key, base_url=self.api_base, azure_deployment=os.getenv("AZURE_DEPLOYMENT")),
             model=self.model,
             messages=openai_create_prompt,
             **{**kwargs, **self.extra_options},
