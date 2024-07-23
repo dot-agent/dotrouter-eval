@@ -39,8 +39,8 @@ class RouterCompletionFn(CompletionFn):
 
     @retry(stop=stop_after_attempt(3))
     def _post_request(self, data):
-        response = requests.post(self.router_url, headers=self.headers, json=data)
-        
+        with requests.Session() as s:
+            response = s.post(self.router_url, headers=self.headers, json=data)
         return response
 
 
