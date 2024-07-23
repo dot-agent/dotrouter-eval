@@ -15,7 +15,7 @@ from typing import Any, Generator, Iterator, Optional, Sequence, Tuple, Type, Ty
 
 import openai
 import yaml
-from openai import OpenAI
+from openai import AzureOpenAI
 
 from evals import OpenAIChatCompletionFn, OpenAICompletionFn
 from evals.api import CompletionFn, DummyCompletionFn
@@ -23,7 +23,7 @@ from evals.base import BaseEvalSpec, CompletionFnSpec, EvalSetSpec, EvalSpec
 from evals.elsuite.modelgraded.base import ModelGradedSpec
 from evals.utils.misc import make_object
 
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+client = AzureOpenAI()
 
 logger = logging.getLogger(__name__)
 
