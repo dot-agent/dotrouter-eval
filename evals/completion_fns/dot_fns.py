@@ -30,8 +30,7 @@ class RouterCompletionFn(CompletionFn):
         }
 
     def call_router(self, prompt: str) -> str:
-        data = {"prompt": prompt,
-                "stream": True}
+        data = {"prompt": prompt}
         response = self._post_request(data)
         if 'status_code' in response and response['status_code'] != 200:
             raise Exception('Router error: ' + response['detail'])
@@ -40,14 +39,9 @@ class RouterCompletionFn(CompletionFn):
 
     @retry(stop=stop_after_attempt(3))
     def _post_request(self, data):
-        response = requests.post(self.router_url, headers=self.headers, json=data, stream=True)
-        full_output = ''
-        for line in response.iter_lines():
-            if line:
-                output = json.loads(line.decode('utf-8'))['output']
-                full_output += output
+        response = requests.post(self.router_url, headers=self.headers, json=data)
         
-        return full_output
+        return response
 
 
     def __call__(self, prompt, **kwargs) -> LangChainLLMCompletionResult:
