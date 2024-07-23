@@ -1,0 +1,2 @@
+dot_router:
+  class: evals.completion_fns.dot_fns:RouterCompletionFn
